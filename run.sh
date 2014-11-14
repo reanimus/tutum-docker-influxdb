@@ -18,7 +18,15 @@ if [ -n "${FORCE_HOSTNAME}" ]; then
 fi
 
 if [ -n "${SEEDS}" ]; then
-	/usr/bin/perl -p -i -e "s/^# seed-servers.*$/seed-servers = [${SEEDS}]/g" ${CONFIG_FILE}
+    PARSED_SEEDS=`python -c 'import sys
+args = len(sys.argv)
+if args > 1:
+    for x in xrange(1,args):
+        sys.stdout.write("\"" + sys.argv[x] + "\"")
+        if x != args-1:
+            sys.stdout.write(",")
+    sys.stdout.write("\n")' ${SEEDS}`
+	/usr/bin/perl -p -i -e "s/^# seed-servers.*$/seed-servers = [${PARSED_SEEDS}]/g" ${CONFIG_FILE}
 fi
 
 if [ -n "${REPLI_FACTOR}" ]; then

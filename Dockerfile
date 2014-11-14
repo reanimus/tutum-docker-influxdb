@@ -6,6 +6,7 @@ ENV INFLUXDB_VERSION 0.8.5
 RUN curl -s -o /tmp/influxdb_latest_amd64.deb https://s3.amazonaws.com/influxdb/influxdb_${INFLUXDB_VERSION}_amd64.deb && \
   dpkg -i /tmp/influxdb_latest_amd64.deb && \
   rm /tmp/influxdb_latest_amd64.deb && \
+  apt-get install python2 -y && \
   rm -rf /var/lib/apt/lists/*
 
 ADD config.toml /config/config.toml
